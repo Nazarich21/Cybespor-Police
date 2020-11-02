@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="Css/style-list.css">
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Ravi+Prakash&display=swap" rel="stylesheet">
+
+    <title>Cypersport Police</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="index.html">Cypersport Police</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link event-list" href="list.html">Payment</a>
+                    </li>
+                    <li class="nav-item sign-up">
+                        <a class="nav-link" href="#">Sign Up</a>
+                    </li>
+                    <li class="nav-item sign-in">
+                        <a class="nav-link" href="#">Sign In</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <section>
+        <div class="main">
+            <nav class="navbar navbar-expand-sm ">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle sorting" href="#" id="navbardrop" data-toggle="dropdown">
+        Sorting by date
+      </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Ascending</a>
+                            <a class="dropdown-item" href="#">Descending</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link filtration" href="#">Filtration</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="list">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Team 1</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Score</th>
+                             <th scope="col">Team 2</th>
+                        </tr>
+                    </thead>
+                    <tbody  id="list">
+                       
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footer-text">
+            © 2020 - Cybersport Police
+            <br>Dota 2 is a registered trademark of Valve Corporation
+        </div>
+    </footer>
+<script type="text/javascript">
+    const url = 'https://api.opendota.com/api/proMatches';
+
+    (async () => {
+        let req = await fetch(url);
+        let res = await req.json();
+        let el = document.getElementById('list');
+        for (let i = 0, lenI = res.length; i < lenI; i++) {
+            el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>'+'<td>' + res[i].duration + '</td>'+ '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+        }
+    })();
+</script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
