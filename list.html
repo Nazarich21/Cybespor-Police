@@ -52,15 +52,16 @@
                             <a class="dropdown-item" href="#" onclick="listdesc()">Descending</a>
                         </div>
                     </li>
-                     <li class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle sorting" href="#" id="navbardrop" data-toggle="dropdown">
         Filtration
       </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" id="filtr" href="#" onclick="listasc()">Team</a>
-                            <p><input id="teamInput"></p>
-                            <a class="dropdown-item" id="filtr" href="#" onclick="listdesc()">Tournament</a>
-                            <p><input id="tournamentInput"></p>
+                            <a class="dropdown-item" id="teama" href="#" onclick="teamsearch()">Team</a>
+                            <input type="text" id="inputteam">
+                            <a class="dropdown-item" id="filtr" href="#" onclick="tournamentsearch()">Tournament</a>
+                            <input type="text" id="inputtournament">
+
                         </div>
                     </li>
                 </ul>
@@ -103,6 +104,9 @@
                 for (let i = 0, lenI = res.length; i < lenI; i++) {
                     el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>' + '<td>' + Math.floor(res[i].duration / 60) + 'min ' + Math.floor(res[i].duration % 60) + 'sec' + '</td>' + '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
                 }
+
+
+
             })();
             isRezeble = true;
         }
@@ -124,8 +128,6 @@
 
 
         }
-        
-
 
         function listasc() {
             const url = 'https://localhost:44344/match?sort=false';
@@ -138,9 +140,88 @@
                 }
                 for (let i = 0, lenI = res.length; i < lenI; i++) {
                     el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>' + '<td>' + Math.floor(res[i].duration / 60) + 'min ' + Math.floor(res[i].duration % 60) + 'sec' + '</td>' + '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+
                 }
             })();
         }
+
+        function teamsearch() {
+            const url = 'https://localhost:44344/match?sort=false';
+            (async() => {
+                let req = await fetch(url);
+                let res = await req.json();
+                var x = document.getElementById("inputteam").value;
+                let searchTeamName = x; //имя команды для поиска
+                let searchTeamId = 0;
+                let el = document.getElementById('list');
+                var searchIdarr = [];
+                while (el.rows.length > 0) {
+                    el.deleteRow(0);
+                }
+                //нахождение соответсвия 
+                for (let i = 0, lenI = res.length; i < lenI; i++) {
+                    if (res[i].radiant_name == searchTeamName || res[i].dire_name == searchTeamName) {
+                        searchIdarr[searchTeamId] = i;
+                        searchTeamId++;
+                    }
+                }
+                for (let i = 0, lenI = searchIdarr.length; i < lenI; i++) {
+                    el.innerHTML +=
+                        '<td>' + res[searchIdarr[i]].radiant_name + '</td>' +
+                        '<td>' + res[searchIdarr[i]].radiant_score + '</td>' +
+                        '<td>' + Math.floor(res[searchIdarr[i]].duration / 60) + 'min ' + Math.floor(res[searchIdarr[i]].duration % 60) + 'sec' + '</td>' +
+                        '<td>' + res[searchIdarr[i]].dire_score + '</td>' +
+                        '<td>' + res[searchIdarr[i]].dire_name + '</td>';
+                }
+            })();
+        }
+        
+         function tournamentsearch() {
+            const url = 'https://localhost:44344/match?sort=false';
+            (async() => {
+                let req = await fetch(url);
+                let res = await req.json();
+                var x = document.getElementById("inputtournament").value;
+                let searchTeamName = x; //имя команды для поиска
+                let searchTeamId = 0;
+                let el = document.getElementById('list');
+                var searchIdarr = [];
+                while (el.rows.length > 0) {
+                    el.deleteRow(0);
+                }
+                //нахождение соответсвия 
+                for (let i = 0, lenI = res.length; i < lenI; i++) {
+                    if (res[i].league_name == searchTeamName) {
+                        searchIdarr[searchTeamId] = i;
+                        searchTeamId++;
+                    }
+                }
+                for (let i = 0, lenI = searchIdarr.length; i < lenI; i++) {
+                    el.innerHTML +=
+                        '<td>' + res[searchIdarr[i]].radiant_name + '</td>' +
+                        '<td>' + res[searchIdarr[i]].radiant_score + '</td>' +
+                        '<td>' + Math.floor(res[searchIdarr[i]].duration / 60) + 'min ' + Math.floor(res[searchIdarr[i]].duration % 60) + 'sec' + '</td>' +
+                        '<td>' + res[searchIdarr[i]].dire_score + '</td>' +
+                        '<td>' + res[searchIdarr[i]].dire_name + '</td>';
+                }
+            })();
+        }
+        
+        var input = document.getElementById("inputteam");
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("teama").click();
+            }
+        });
+        
+         var input = document.getElementById("inputtournament");
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("filtr").click();
+            }
+        });
 
     </script>
     <!-- Optional JavaScript -->
