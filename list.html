@@ -48,12 +48,20 @@
         Sorting by date
       </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Ascending</a>
-                            <a class="dropdown-item" href="#">Descending</a>
+                            <a class="dropdown-item" href="#" onclick="listasc()">Ascending</a>
+                            <a class="dropdown-item" href="#" onclick="listdesc()">Descending</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link filtration" href="#">Filtration</a>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle sorting" href="#" id="navbardrop" data-toggle="dropdown">
+        Filtration
+      </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" id="filtr" href="#" onclick="listasc()">Team</a>
+                            <p><input id="teamInput"></p>
+                            <a class="dropdown-item" id="filtr" href="#" onclick="listdesc()">Tournament</a>
+                            <p><input id="tournamentInput"></p>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -65,12 +73,12 @@
                             <th scope="col">Score</th>
                             <th scope="col">Duration</th>
                             <th scope="col">Score</th>
-                             <th scope="col">Team 2</th>
+                            <th scope="col">Team 2</th>
                         </tr>
                     </thead>
-                    <tbody  id="list">
-                       
-                    
+                    <tbody id="list">
+
+
                     </tbody>
                 </table>
             </div>
@@ -82,18 +90,59 @@
             <br>Dota 2 is a registered trademark of Valve Corporation
         </div>
     </footer>
-<script type="text/javascript">
-    const url = 'https://api.opendota.com/api/proMatches';
+    <script type="text/javascript">
+        var isResizeble = false;
+        if (!isResizeble) {
 
-    (async () => {
-        let req = await fetch(url);
-        let res = await req.json();
-        let el = document.getElementById('list');
-        for (let i = 0, lenI = res.length; i < lenI; i++) {
-            el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>'+'<td>' + res[i].duration + '</td>'+ '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+            const url = 'https://localhost:44344/match?sort=false';
+            (async() => {
+                let req = await fetch(url);
+                let res = await req.json();
+                let el = document.getElementById('list');
+                console.log(res);
+                for (let i = 0, lenI = res.length; i < lenI; i++) {
+                    el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>' + '<td>' + Math.floor(res[i].duration / 60) + 'min ' + Math.floor(res[i].duration % 60) + 'sec' + '</td>' + '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+                }
+            })();
+            isRezeble = true;
         }
-    })();
-</script>
+
+
+        function listdesc() {
+            const url = 'https://localhost:44344/match?sort=true';
+            (async() => {
+                let req = await fetch(url);
+                let res = await req.json();
+                let el = document.getElementById('list');
+                while (el.rows.length > 0) {
+                    el.deleteRow(0);
+                }
+                for (let i = 0, lenI = res.length; i < lenI; i++) {
+                    el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>' + '<td>' + Math.floor(res[i].duration / 60) + 'min ' + Math.floor(res[i].duration % 60) + 'sec' + '</td>' + '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+                }
+            })();
+
+
+        }
+        
+
+
+        function listasc() {
+            const url = 'https://localhost:44344/match?sort=false';
+            (async() => {
+                let req = await fetch(url);
+                let res = await req.json();
+                let el = document.getElementById('list');
+                while (el.rows.length > 0) {
+                    el.deleteRow(0);
+                }
+                for (let i = 0, lenI = res.length; i < lenI; i++) {
+                    el.innerHTML += '<td>' + res[i].radiant_name + '</td>' + '<td>' + res[i].radiant_score + '</td>' + '<td>' + Math.floor(res[i].duration / 60) + 'min ' + Math.floor(res[i].duration % 60) + 'sec' + '</td>' + '<td>' + res[i].dire_score + '</td>' + '<td>' + res[i].dire_name + '</td>';
+                }
+            })();
+        }
+
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
